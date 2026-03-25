@@ -1,0 +1,33 @@
+Options -Indexes
+
+RewriteEngine On
+
+# Root URL -> app.html
+RewriteRule ^$ app.html [L]
+
+# API requests -> index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/(.*)$ index.php?route=$1 [QSA,L]
+
+# Webhook requests -> index.php
+RewriteRule ^webhook/(.*)$ index.php?route=webhook/$1 [QSA,L]
+
+# Block direct access to backend directories
+RewriteRule ^(config|core|controllers|models|services|middlewares|helpers|database|logs)/ - [F,L]
+
+# Block .sql files
+RewriteRule \.sql$ - [F,L]
+
+# Security headers (only if mod_headers available)
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# PHP settings
+<IfModule mod_php.c>
+    php_value upload_max_filesize 10M
+    php_value post_max_size 12M
+</IfModule>

@@ -1,0 +1,7 @@
+{
+    "version": "2.0.0",
+    "name": "RohrApp+",
+    "phase": "Production Ready",
+    "build": "2026-03-25",
+    "changelog": "v2.0.0: Complete rewrite with flat layout, one-click installer, hosting compatibility"
+}
